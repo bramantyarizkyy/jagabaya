@@ -1,0 +1,168 @@
+<context>
+
+# Overview  
+Jagabaya Apps adalah platform manajemen bisnis jasa pengamanan pribadi (bodyguard) yang dirancang untuk perusahaan penyedia jasa keamanan di Indonesia.  
+
+- **Masalah yang diselesaikan:**
+  - Kesulitan mengelola jadwal, lokasi, laporan, dan data personel bodyguard secara real-time.
+  - Kurangnya transparansi antara perusahaan, personel, dan klien.
+  - Proses administrasi manual yang tidak efisien.
+
+- **Target Pengguna:**
+  - Perusahaan penyedia jasa bodyguard
+  - Supervisor / HRD pengelola personel
+  - Bodyguard yang bertugas di lapangan
+  - Klien yang menggunakan jasa pengamanan
+
+- **Nilai yang diberikan:**
+  - Efisiensi manajemen SDM dan tugas
+  - Transparansi laporan dan status layanan
+  - Realtime tracking dan dokumentasi digital
+
+# Core Features  
+
+## 1. HRD & Manajemen Personel
+- **Apa**: Mengelola profil bodyguard, jadwal, absensi, dan penugasan.
+- **Kenapa**: HRD dapat mengatur sumber daya dengan lebih akurat dan efisien.
+- **Bagaimana**: Admin input data, atur jadwal, bodyguard check-in menggunakan GPS/QR, sistem mencatat otomatis.
+
+## 2. Penugasan & Lokasi
+- **Apa**: Menentukan lokasi tugas dan memantau posisi bodyguard.
+- **Kenapa**: Menjamin bahwa personel berada di lokasi yang ditugaskan.
+- **Bagaimana**: Lokasi ditentukan via peta, posisi bodyguard di-tracking dengan GPS mobile device.
+
+## 3. Laporan & Insiden
+- **Apa**: Pencatatan laporan harian, kejadian khusus, evaluasi kinerja.
+- **Kenapa**: Memastikan operasional berjalan aman dan terdokumentasi.
+- **Bagaimana**: Bodyguard atau supervisor mengisi form laporan melalui aplikasi.
+
+## 4. Manajemen Klien & Layanan
+- **Apa**: Klien mendaftarkan permintaan layanan, memberi feedback.
+- **Kenapa**: Meningkatkan transparansi dan kepuasan klien.
+- **Bagaimana**: Klien mengisi form permintaan, sistem menjadwalkan otomatis berdasarkan ketersediaan personel.
+
+## 5. Keuangan & Administrasi
+- **Apa**: Otomatisasi penggajian, faktur klien, rekap laporan bulanan.
+- **Kenapa**: Mempermudah pengelolaan keuangan dan legal.
+- **Bagaimana**: Gaji dihitung berdasarkan shift & performa, invoice dikirim ke klien secara otomatis.
+
+# User Experience  
+
+## User Personas
+- **HRD/Admin**: Mengelola data personel, laporan, dan klien.
+- **Bodyguard**: Menerima tugas, lapor kehadiran, kirim laporan.
+- **Supervisor**: Mengawasi operasional lapangan.
+- **Klien**: Mengajukan permintaan dan memberikan feedback.
+
+## Key User Flows
+- Admin membuat akun bodyguard dan atur jadwal
+- Bodyguard login, lihat tugas, check-in di lokasi
+- Supervisor memantau posisi & menyetujui laporan
+- Klien menerima notifikasi tugas aktif & beri feedback
+- Admin melihat rekap & mengatur pembayaran/gaji
+
+## UI/UX Considerations
+- Tampilan bersih, dengan peta & info tugas sebagai fokus utama
+- Warna dominan: Merah bata, hitam, dan putih
+- Navigasi sederhana dan langsung ke fitur utama
+- Dukungan dark mode untuk kenyamanan operasional malam
+
+</context>
+
+<PRD>
+
+# Technical Architecture  
+
+## System Components
+- Frontend Web: React.js (Admin panel)
+- Mobile App: React Native / Flutter (Bodyguard & Klien)
+- Backend API: Laravel 12 (PHP 8.2+)
+- Database: MySQL 8.0+ 
+- Authentication: Laravel Sanctum + JWT
+- Real-time Tracking: Laravel WebSockets / Pusher
+- Storage: Laravel Storage dengan S3/Cloudinary
+- Mapping & Lokasi: Google Maps API
+
+## Data Models (high-level)
+- User (Admin, Supervisor, Bodyguard, Klien)
+- PersonelProfile (Data pribadi, skill, sertifikat)
+- Schedule (Tanggal, lokasi, shift, bodyguard_id)
+- Attendance (Check-in/out, GPS log)
+- Report (Tugas, kejadian, penilaian)
+- ClientRequest (Permintaan tugas)
+- Invoice (Klien, status pembayaran)
+- Feedback (Rating & komentar dari klien)
+
+## APIs and Integrations
+- RESTful API untuk semua fitur utama
+- Google Maps API untuk mapping & lokasi
+- Firebase untuk autentikasi & notifikasi
+- (Optional) Midtrans / Xendit untuk pembayaran
+
+## Infrastructure Requirements
+- Cloud Hosting: Vercel/Render (Frontend), Heroku/DigitalOcean/AWS (Backend)
+- CDN: Cloudflare
+- Auto backup DB + logs harian
+
+# Development Roadmap  
+
+## Phase 1 – MVP
+- Modul Autentikasi (Login + Role)
+- Dashboard Admin (List personel, penugasan manual)
+- Mobile App Bodyguard (Lihat tugas + check-in)
+- Laporan Harian
+- Tracking Lokasi (manual ping GPS)
+- Basic Klien Request Form
+
+## Phase 2 – Enhancements
+- Integrasi Absensi GPS otomatis
+- Penjadwalan dinamis berbasis ketersediaan
+- Modul Keuangan (gaji, invoice klien)
+- Notifikasi Real-time
+- Dashboard Supervisor + Evaluasi Personel
+
+## Phase 3 – Advanced Features
+- Sistem Ticket Insiden
+- Machine Learning untuk prediksi kebutuhan personel
+- Integrasi dengan sistem CCTV / alat lapangan
+- Kontrak Digital (e-signature)
+
+# Logical Dependency Chain
+
+1. Auth & User Role System (pondasi)
+2. Dashboard Admin + CRUD Personel
+3. Mobile Bodyguard App (lihat tugas + check-in)
+4. Tracking Lokasi & Penjadwalan
+5. Laporan & Permintaan Klien
+6. Notifikasi & Feedback
+7. Modul Keuangan & Evaluasi
+8. Integrasi eksternal & fitur lanjutan
+
+# Risks and Mitigations  
+
+## Technical Risks
+- Tracking real-time GPS bisa berat → fallback check-in manual
+- Multi-role UI/UX kompleks → solusi: flow per persona, modul per akses
+
+## MVP Scope
+- Menentukan fitur minimum yang bisa langsung digunakan
+- Solusi: Validasi awal dengan mitra user terbatas
+
+## Resource Constraints
+- Mobile dev berat jika dua platform → solusi: React Native satu codebase
+
+# Appendix  
+
+## Research Findings
+- Bodyguard bekerja shift, butuh laporan cepat dan mobile-friendly
+- Perusahaan keamanan mayoritas belum digital
+- Klien premium mengutamakan transparansi & laporan insiden
+
+## Technical Spec (sample endpoint)
+- POST /api/login
+- GET /api/bodyguard/:id/schedule
+- POST /api/attendance/checkin
+- POST /api/report
+- POST /api/client/request
+
+</PRD>
